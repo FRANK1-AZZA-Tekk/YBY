@@ -168,3 +168,8 @@ responsible-ai
 brazil
 Brasil
 inteligência artificial 
+
+Código e firmware: Apache License 2.0
+Documentação: CC BY-SA 4.0
+Esquemas e arquivos de hardware: CERN-OHL-S-2.0
+Datasets próprios: CC BY 4.0 ou CC0, conforme o caso
