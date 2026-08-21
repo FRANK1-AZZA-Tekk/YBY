@@ -146,3 +146,25 @@ Esse alinhamento não representa vínculo, apoio, financiamento ou reconheciment
 ## Licença
 
 A licença do projeto ainda será definida de acordo com os componentes de software, firmware, documentação, modelos e hardware utilizados.
+
+artificial-intelligence
+open-source
+wearable
+edge-ai
+assistive-technology
+accessibility
+education
+privacy
+computer-vision
+voice-assistant
+esp32
+esp32-s3
+t-watch
+lilygo
+embedded-systems
+machine-learning
+local-ai
+responsible-ai
+brazil
+Brasil
+inteligência artificial 
