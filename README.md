@@ -1,4 +1,4 @@
-# YBY [You By Yourself]®
+# YBY [You By Yourself]
 
 > IA vestível, distribuída e centrada no ser humano para ampliar autonomia, acessibilidade, educação e bem-estar.
 
