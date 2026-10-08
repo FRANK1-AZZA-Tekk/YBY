@@ -9,6 +9,7 @@ dependencies = [
     "pydantic>=2.0",
     "jsonschema>=4.0",
     "ollama>=0.6",
+    "openai>=1.0",
 ]
 
 [project.optional-dependencies]
