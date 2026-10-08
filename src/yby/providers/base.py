@@ -22,3 +22,4 @@ class ProviderResult:
     latency_ms: float = 0.0
     error_code: str | None = None
     sensitive_data_sent: bool = False
+    audit_reason: str | None = None
