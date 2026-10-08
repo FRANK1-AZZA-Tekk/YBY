@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yby.dev/schemas/yby-ui.schema.json",
+  "title": "YBY Intelligent UI",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["view", "title", "status", "components"],
+  "properties": {
+    "view": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "message"],
+      "properties": {
+        "level": {"enum": ["normal", "warning", "critical"]},
+        "message": {"type": "string"}
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "id"],
+        "properties": {
+          "type": {"enum": ["metric", "alert", "chart", "table", "timeline", "diagram", "checklist", "form", "action", "tabs"]},
+          "id": {"type": "string", "minLength": 1},
+          "label": {"type": "string"},
+          "value": {},
+          "unit": {"type": ["string", "null"]},
+          "source": {"enum": ["measured", "datasheet", "calculated", "estimated", "simulated", "unknown"]},
+          "risk": {"enum": ["low", "medium", "high"]},
+          "requires_confirmation": {"type": "boolean"},
+          "allowed": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}
