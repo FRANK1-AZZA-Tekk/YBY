@@ -4,7 +4,13 @@ def test_yby_package_imports():
     assert yby is not None
 
 
-def test_yby_ui_and_router_imports():
+def test_yby_zero_compatibility_package_imports():
+    import yby_zero
+
+    assert yby_zero is not None
+
+
+def test_yby_ui_and_router_imports_from_installed_package():
     from yby.router import HybridRouter
     from yby.ui import build_status_view
 

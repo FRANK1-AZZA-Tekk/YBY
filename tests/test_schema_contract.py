@@ -6,13 +6,27 @@ from jsonschema import Draft202012Validator
 SCHEMA_PATH = Path(__file__).parents[1] / "schemas" / "yby_ui.schema.json"
 
 
+def load_schema():
+    return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+
+
 def test_ui_schema_is_valid_draft_2020_12_schema():
-    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    schema = load_schema()
     Draft202012Validator.check_schema(schema)
 
 
+def test_ui_schema_accepts_minimal_valid_state():
+    state = {
+        "view": "device_status",
+        "title": "Status do YBY",
+        "status": {"level": "normal", "message": "ok"},
+        "components": [],
+    }
+
+    assert Draft202012Validator(load_schema()).is_valid(state)
+
+
 def test_ui_schema_rejects_unknown_component_and_extra_root_field():
-    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     state = {
         "view": "test",
         "title": "Test",
@@ -21,17 +35,5 @@ def test_ui_schema_rejects_unknown_component_and_extra_root_field():
         "unexpected": True,
     }
 
-    errors = list(Draft202012Validator(schema).iter_errors(state))
+    errors = list(Draft202012Validator(load_schema()).iter_errors(state))
     assert len(errors) >= 2
-
-
-def test_ui_schema_accepts_minimal_valid_state():
-    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
-    state = {
-        "view": "device_status",
-        "title": "Status do YBY",
-        "status": {"level": "normal", "message": "ok"},
-        "components": [],
-    }
-
-    assert Draft202012Validator(schema).is_valid(state)

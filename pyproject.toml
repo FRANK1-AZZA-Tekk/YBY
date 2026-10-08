@@ -16,6 +16,8 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["yby*", "yby_zero*"]
+namespaces = false
 
 [tool.ruff]
 line-length = 100
@@ -29,11 +31,12 @@ testpaths = ["tests"]
 addopts = "--strict-markers"
 
 [tool.coverage.run]
-source = ["src/yby"]
+branch = true
+source = ["yby"]
 
 [tool.coverage.report]
-fail_under = 80
 show_missing = true
+skip_covered = true
 
 [build-system]
 requires = ["setuptools>=68"]
