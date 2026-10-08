@@ -1,0 +1,1 @@
+"""YBY Hub backend."""
