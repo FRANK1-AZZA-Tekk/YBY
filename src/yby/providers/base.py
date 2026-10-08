@@ -9,6 +9,8 @@ class ProviderRequest:
     text: str
     system: str | None = None
     response_schema: dict[str, Any] | None = None
+    cloud_consent: bool = False
+    data_class: str = "internal"
 
 
 @dataclass(frozen=True)
