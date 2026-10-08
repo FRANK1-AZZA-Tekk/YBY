@@ -1,17 +1,22 @@
-"""Pydantic request and response models for the local YBY API."""
+"""Pydantic models for the local YBY API."""
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class HealthResponse(BaseModel):
+class StrictModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class HealthResponse(StrictModel):
     status: Literal["ok"]
     service: str = "yby-api"
     mode: Literal["local", "mock"] = "local"
+    version: str = "0.1.0"
 
 
-class DeviceStatus(BaseModel):
+class DeviceStatus(StrictModel):
     device_id: str = Field(min_length=1, max_length=128)
     battery_percent: float = Field(ge=0, le=100)
     temperature_c: float = Field(ge=-100, le=200)
@@ -22,17 +27,17 @@ class DeviceStatus(BaseModel):
     source: Literal["measured", "simulated"]
 
 
-class IntentRequest(BaseModel):
+class IntentRequest(StrictModel):
     text: str = Field(min_length=1, max_length=4000)
     device_id: str = Field(default="yby-dev-001", min_length=1, max_length=128)
 
 
-class UIStatus(BaseModel):
+class UIStatus(StrictModel):
     level: Literal["normal", "warning", "critical"]
-    message: str = Field(max_length=1000)
+    message: str = Field(min_length=1, max_length=1000)
 
 
-class UIComponent(BaseModel):
+class UIComponent(StrictModel):
     type: Literal["metric", "alert", "chart", "table", "timeline", "diagram", "checklist", "form", "action", "tabs"]
     id: str = Field(min_length=1, max_length=128)
     label: str | None = Field(default=None, max_length=256)
@@ -44,7 +49,7 @@ class UIComponent(BaseModel):
     allowed: bool = True
 
 
-class UIState(BaseModel):
+class UIState(StrictModel):
     schema_version: Literal["1.0.0"] = "1.0.0"
     view: str = Field(min_length=1, max_length=128)
     title: str = Field(min_length=1, max_length=256)
@@ -52,7 +57,14 @@ class UIState(BaseModel):
     components: list[UIComponent]
 
 
-class IntentResponse(BaseModel):
+class IntentResponse(StrictModel):
     route: Literal["local", "openrouter", "mock", "tool"]
-    reason: str
+    reason: str = Field(min_length=1, max_length=1000)
     ui_state: UIState
+
+
+class VersionResponse(StrictModel):
+    name: str = "yby-api"
+    version: str = "0.1.0"
+    contract_version: str = "1.0.0"
+    mode: Literal["local", "mock"] = "local"

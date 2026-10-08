@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI
 
-from .models import DeviceStatus, HealthResponse, IntentRequest, IntentResponse
+from .models import DeviceStatus, HealthResponse, IntentRequest, IntentResponse, VersionResponse
 from .services import DeviceService, IntentService
 
 app = FastAPI(title="YBY Local API", version="0.1.0")
@@ -13,6 +13,11 @@ intent_service = IntentService()
 @app.get("/health", response_model=HealthResponse)
 def health() -> HealthResponse:
     return HealthResponse(status="ok")
+
+
+@app.get("/version", response_model=VersionResponse)
+def version() -> VersionResponse:
+    return VersionResponse()
 
 
 @app.get("/api/device/status", response_model=DeviceStatus)

@@ -10,6 +10,14 @@ def test_health():
 
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
+    assert response.json()["version"] == "0.1.0"
+
+
+def test_version():
+    response = client.get("/version")
+
+    assert response.status_code == 200
+    assert response.json()["contract_version"] == "1.0.0"
 
 
 def test_device_status_is_explicitly_simulated():
@@ -21,7 +29,7 @@ def test_device_status_is_explicitly_simulated():
     assert body["device_id"] == "yby-dev-001"
 
 
-def test_intent_returns_local_ui_state():
+def test_intent_returns_contract_validated_ui_state():
     response = client.post("/api/intent", json={"text": "Como está o YBY?"})
 
     assert response.status_code == 200
@@ -29,6 +37,12 @@ def test_intent_returns_local_ui_state():
     assert body["route"] == "local"
     assert body["ui_state"]["schema_version"] == "1.0.0"
     assert body["ui_state"]["components"]
+
+
+def test_unknown_request_field_is_rejected():
+    response = client.post("/api/intent", json={"text": "status", "unexpected": True})
+
+    assert response.status_code == 422
 
 
 def test_empty_intent_is_rejected():

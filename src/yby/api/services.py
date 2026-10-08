@@ -1,5 +1,10 @@
 """Application services for the first local YBY API."""
 
+import json
+from pathlib import Path
+
+from jsonschema import Draft202012Validator
+
 from yby.core.models import Intent
 from yby.router import HybridRouter
 
@@ -26,6 +31,8 @@ class IntentService:
     def __init__(self) -> None:
         self.router = HybridRouter()
         self.device_service = DeviceService()
+        schema_path = Path(__file__).parents[3] / "contracts" / "ui_state.schema.json"
+        self.ui_validator = Draft202012Validator(json.loads(schema_path.read_text(encoding="utf-8")))
 
     def process(self, text: str, device_id: str) -> tuple[str, str, UIState]:
         intent = Intent(text=text)
@@ -41,4 +48,7 @@ class IntentService:
                 {"type": "metric", "id": "ble", "label": "BLE", "value": status.ble_connected, "unit": None, "source": status.source},
             ],
         )
+        errors = list(self.ui_validator.iter_errors(ui_state.model_dump()))
+        if errors:
+            raise ValueError(f"generated UI state violates contract: {errors[0].message}")
         return decision.route, decision.reason, ui_state
