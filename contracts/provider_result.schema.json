@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yby.dev/contracts/provider-result.schema.json",
+  "title": "YBY Provider Result Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "provider", "model", "status", "output"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "provider": {"type": "string", "minLength": 1, "maxLength": 128},
+    "model": {"type": "string", "minLength": 1, "maxLength": 256},
+    "status": {"enum": ["success", "error", "timeout", "blocked"]},
+    "output": {"type": ["string", "object", "array", "null"]},
+    "ui_state": {"type": ["object", "null"]},
+    "input_tokens": {"type": "integer", "minimum": 0},
+    "output_tokens": {"type": "integer", "minimum": 0},
+    "latency_ms": {"type": "number", "minimum": 0},
+    "estimated_cost": {"type": "number", "minimum": 0},
+    "sensitive_data_sent": {"type": "boolean"},
+    "error_code": {"type": "string", "minLength": 1}
+  }
+}

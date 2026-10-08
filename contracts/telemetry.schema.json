@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yby.dev/contracts/telemetry.schema.json",
+  "title": "YBY Telemetry Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "device_id", "timestamp", "source", "metrics"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "device_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "timestamp": {"type": "string", "minLength": 1},
+    "source": {"enum": ["measured", "simulated"]},
+    "sequence": {"type": "integer", "minimum": 0},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "battery_percent": {"type": "number", "minimum": 0, "maximum": 100},
+        "battery_voltage_mv": {"type": "number", "minimum": 0},
+        "temperature_c": {"type": "number", "minimum": -100, "maximum": 200},
+        "current_ma": {"type": "number", "minimum": 0},
+        "rssi_dbm": {"type": "number", "minimum": -150, "maximum": 0}
+      }
+    },
+    "capabilities": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yby.dev/contracts/ui-state.schema.json",
+  "title": "YBY UI State Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "view", "title", "status", "components"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "view": {"type": "string", "minLength": 1, "maxLength": 128},
+    "title": {"type": "string", "minLength": 1, "maxLength": 256},
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "message"],
+      "properties": {
+        "level": {"enum": ["normal", "warning", "critical"]},
+        "message": {"type": "string", "maxLength": 1000}
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "id"],
+        "properties": {
+          "type": {"enum": ["metric", "alert", "chart", "table", "timeline", "diagram", "checklist", "form", "action", "tabs"]},
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "label": {"type": "string", "maxLength": 256},
+          "value": {},
+          "unit": {"type": ["string", "null"], "maxLength": 32},
+          "source": {"enum": ["measured", "datasheet", "calculated", "estimated", "simulated", "unknown"]},
+          "risk": {"enum": ["low", "medium", "high"]},
+          "requires_confirmation": {"type": "boolean"},
+          "allowed": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

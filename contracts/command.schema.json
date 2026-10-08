@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yby.dev/contracts/command.schema.json",
+  "title": "YBY Command Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "command_id", "device_id", "action", "risk", "requires_confirmation", "parameters"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "command_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "device_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "action": {"enum": ["get_status", "set_power_mode", "restart_sensor", "start_calibration", "enter_sleep"]},
+    "risk": {"enum": ["low", "medium", "high"]},
+    "requires_confirmation": {"type": "boolean"},
+    "parameters": {"type": "object"},
+    "requested_by": {"type": "string", "minLength": 1, "maxLength": 128},
+    "expires_at": {"type": "string", "minLength": 1}
+  }
+}
